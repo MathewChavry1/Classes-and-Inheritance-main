@@ -5,17 +5,17 @@
  */
 class Spaceship {
     var name: String = ""
-    var health = 100
-    var position = 0
-    
+    var health: Int = 0
+    var position: Int = 0
+
     func moveLeft() {
         position -= 1
     }
-    
+
     func moveRight() {
         position += 1
     }
-    
+
     func wasHit() {
         health -= 5
         if health <= 0 {
@@ -25,9 +25,9 @@ class Spaceship {
 }
 
 class Fighter: Spaceship {
-    var weapon = ""
-    var remainingFirePower = 5
-    
+    var weapon: String = " "
+    var remainingFirePower: Int = 0
+
     func fire() {
         if remainingFirePower > 0 {
             remainingFirePower -= 1
@@ -36,14 +36,33 @@ class Fighter: Spaceship {
         }
     }
 }
-//:  Define a new class `ShieldedShip` that inherits from `Fighter`. Add a variable property `shieldStrength` that defaults to 25. Create a new instance of `ShieldedShip` called `defender`. Set `name` to "Defender" and `weapon` to "Cannon." Call `moveRight()` and print `position`, then call `fire()` and print `remainingFirePower`.
 
+class ShieldedShip: Fighter {
+    var shieldStrength: Int = 0
+
+    override func wasHit() {
+        if shieldStrength > 0 {
+            shieldStrength -= 5
+        } else {
+            super.wasHit()
+        }
+    }
+}
+//:  Define a new class `ShieldedShip` that inherits from `Fighter`. Add a variable property `shieldStrength` that defaults to 25. Create a new instance of `ShieldedShip` called `defender`. Set `name` to "Defender" and `weapon` to "Cannon." Call `moveRight()` and print `position`, then call `fire()` and print `remainingFirePower`.
+var defender = ShieldedShip()
+defender.name = "Defender"
+defender.weapon = "Cannon"
+defender.moveRight()
+print(defender.position)
+defender.fire()
+print(defender.remainingFirePower)
 
 //:  Go back to your declaration of `ShieldedShip` and override `wasHit()`. In the body of the method, check to see if `shieldStrength` is greater than 0. If it is, decrement `shieldStrength` by 5. Otherwise, decrement `health` by 5. Call `wasHit()` on `defender` and print `shieldStrength` and `health`.
 
 
 //:  When `shieldStrength` is 0, all `wasHit()` does is decrement `health` by 5. That's exactly what the implementation of `wasHit()` on `Spaceship` does! Instead of rewriting that, you can call through to the superclass implementation of `wasHit()`. Go back to your implementation of `wasHit()` on `ShieldedShip` and remove the code where you decrement `health` by 5 and replace it with a call to the superclass's implementation of the method. Call `wasHit()` on `defender`, then print `shieldStrength` and `health`.
-
+defender.wasHit()
+print(defender.wasHit())
 
 /*:
 [Previous](@previous)  |  page 3 of 4  |  [Next: Exercise - Class Memberwise Initializers and References](@next)
