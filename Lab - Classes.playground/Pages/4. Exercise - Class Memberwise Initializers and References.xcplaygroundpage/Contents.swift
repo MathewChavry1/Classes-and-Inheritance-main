@@ -4,47 +4,65 @@
  - Note: The exercises below are based on a game where a spaceship avoids obstacles in space. The ship is positioned at the bottom of a coordinate system and can only move left and right while obstacles "fall" from top to bottom. The base class `Spaceship` and subclasses `Fighter` and `ShieldedShip` have been provided for you below. You will use these to complete the exercises.
  */
 class Spaceship {
-    let name: String
+    var name: String
     var health: Int
     var position: Int
-
+    
+    init(name: String, health: Int, position:Int ){
+        self.name = name
+        self.health = health
+        self.position = position
+    
+    }
+    
     func moveLeft() {
         position -= 1
     }
-
+    
     func moveRight() {
         position += 1
     }
-
+    
     func wasHit() {
         health -= 5
         if health <= 0 {
             print("Sorry, your ship was hit one too many times. Do you want to play again?")
         }
     }
-}
-
-class Fighter: Spaceship {
-    let weapon: String
-    var remainingFirePower: Int
-
-    func fire() {
-        if remainingFirePower > 0 {
-            remainingFirePower -= 1
-        } else {
-            print("You have no more fire power.")
+    
+    class Fighter: Spaceship {
+        let weapon: String
+        var remainingFirePower: Int
+        
+        init(weapon:String, remainingFirePower : Int, name:String, health:Int, position: Int) {
+            self.weapon = weapon
+            self.remainingFirePower = remainingFirePower
+            super.init(name: name, health: health, position: position)
+        }
+        
+        func fire() {
+            if remainingFirePower > 0 {
+                remainingFirePower -= 1
+            } else {
+                print("You have no more fire power.")
+            }
         }
     }
-}
-
-class ShieldedShip: Fighter {
-    var shieldStrength: Int
-
-    override func wasHit() {
-        if shieldStrength > 0 {
-            shieldStrength -= 5
-        } else {
-            super.wasHit()
+    
+    class ShieldedShip: Fighter {
+        var shieldStrength: Int
+        
+        init(sheildStrength: Int, remainingFirePower: Int, name: String, health: Int, position: Int, weapon : String) {
+            self.shieldStrength = sheildStrength
+            super.init(weapon: weapon, remainingFirePower: remainingFirePower, name: name, health: health, position: position)
+        }
+        
+        override func wasHit() {
+            if shieldStrength > 0 {
+                shieldStrength -= 5
+            } else {
+                super.wasHit()
+            }
         }
     }
 }
@@ -67,7 +85,7 @@ class ShieldedShip: Fighter {
 
  Then create an instance of `ShieldedShip` below called `defender`. Use the memberwise initializer you just created. The ship's name should be "Defender."
  */
-
+var defender = SheildedShip(shieldStrenghth: 25, remainingFirePower )
 
 //:  Create a new constant named `sameShip` and set it equal to `falcon`. Print out the position of `sameShip` and `falcon`, then call `moveLeft()` on `sameShip` and print out the position of `sameShip` and `falcon` again. Did both positions change? Why? If both were structs instead of classes, would it be the same? Why or why not? Provide your answer in a comment or print statement below.
 
